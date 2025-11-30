@@ -1,5 +1,5 @@
 import db from './db';
-import { type TodosTable } from './schema';
+import { type Todo } from './schema';
 
 export interface CreateTodoInput {
   title: string;
@@ -13,7 +13,7 @@ export interface UpdateTodoInput {
 }
 
 // Convert TiDB's TINYINT to boolean
-function mapTodoFromDb(todo: TodosTable) {
+function mapTodoFromDb(todo: Todo) {
   return {
     ...todo,
     is_completed: Boolean(todo.is_completed),
@@ -57,7 +57,7 @@ export async function createTodo(input: CreateTodoInput) {
 }
 
 export async function updateTodo(id: number, input: UpdateTodoInput) {
-  const updates: Partial<TodosTable> = {
+  const updates: Partial<Todo> = {
     updated_at: new Date(),
   };
 

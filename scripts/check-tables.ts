@@ -13,7 +13,7 @@ async function checkTables() {
     const result = await connection.execute('SHOW TABLES');
     console.log('Tables in database:', result);
 
-    const rows = result.rows || [];
+    const rows = Array.isArray(result) ? result : (result.rows || []);
     if (rows.length === 0) {
       console.log('\nNo tables found. Running migration...');
       const { readFileSync } = await import('fs');
@@ -34,7 +34,8 @@ async function checkTables() {
       console.log('\n✅ Migration completed!');
 
       const newResult = await connection.execute('SHOW TABLES');
-      console.log('Tables after migration:', newResult.rows);
+      const newRows = Array.isArray(newResult) ? newResult : (newResult.rows || []);
+      console.log('Tables after migration:', newRows);
     }
   } catch (error) {
     console.error('Error:', error);
