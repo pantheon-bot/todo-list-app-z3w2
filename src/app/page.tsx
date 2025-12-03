@@ -91,13 +91,13 @@ export default function Home() {
   };
 
   return (
-    <div className="flex min-h-screen items-start justify-center bg-zinc-50 py-12 px-4 dark:bg-zinc-900">
+    <div className="flex min-h-screen items-start justify-center bg-white py-12 px-4 dark:bg-black">
       <main className="w-full max-w-2xl">
         <div className="mb-8 text-center">
-          <h1 className="text-4xl font-bold text-zinc-900 dark:text-zinc-50">
+          <h1 className="text-4xl font-bold text-black dark:text-white">
             Todo List
           </h1>
-          <p className="mt-2 text-zinc-600 dark:text-zinc-400">
+          <p className="mt-2 text-black dark:text-white">
             Manage your tasks with TiDB Cloud
           </p>
         </div>
@@ -105,7 +105,7 @@ export default function Home() {
         {/* Add Todo Form */}
         <form
           onSubmit={handleCreateTodo}
-          className="mb-8 rounded-lg bg-white p-6 shadow-sm dark:bg-zinc-800"
+          className="mb-8 rounded-lg bg-white p-6 shadow-sm border border-black dark:bg-black dark:border-white"
         >
           <div className="mb-4">
             <input
@@ -113,7 +113,7 @@ export default function Home() {
               placeholder="Todo title (required)"
               value={newTodoTitle}
               onChange={(e) => setNewTodoTitle(e.target.value)}
-              className="w-full rounded-md border border-zinc-300 px-4 py-2 text-zinc-900 placeholder-zinc-500 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500 dark:border-zinc-600 dark:bg-zinc-700 dark:text-zinc-50 dark:placeholder-zinc-400"
+              className="w-full rounded-md border border-black px-4 py-2 text-black placeholder-gray-500 focus:border-black focus:outline-none focus:ring-1 focus:ring-black dark:border-white dark:bg-black dark:text-white dark:placeholder-gray-400"
               required
             />
           </div>
@@ -122,13 +122,13 @@ export default function Home() {
               placeholder="Description (optional)"
               value={newTodoDescription}
               onChange={(e) => setNewTodoDescription(e.target.value)}
-              className="w-full rounded-md border border-zinc-300 px-4 py-2 text-zinc-900 placeholder-zinc-500 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500 dark:border-zinc-600 dark:bg-zinc-700 dark:text-zinc-50 dark:placeholder-zinc-400"
+              className="w-full rounded-md border border-black px-4 py-2 text-black placeholder-gray-500 focus:border-black focus:outline-none focus:ring-1 focus:ring-black dark:border-white dark:bg-black dark:text-white dark:placeholder-gray-400"
               rows={3}
             />
           </div>
           <button
             type="submit"
-            className="w-full rounded-md bg-zinc-900 px-4 py-2 font-medium text-white transition-colors hover:bg-zinc-700 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-200"
+            className="w-full rounded-md bg-black px-4 py-2 font-medium text-white transition-colors hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200"
           >
             Add Todo
           </button>
@@ -140,10 +140,10 @@ export default function Home() {
             <button
               key={filterOption}
               onClick={() => setFilter(filterOption)}
-              className={`rounded-md px-4 py-2 text-sm font-medium transition-colors ${
+              className={`rounded-md px-4 py-2 text-sm font-medium transition-colors border ${
                 filter === filterOption
-                  ? 'bg-zinc-900 text-white dark:bg-zinc-50 dark:text-zinc-900'
-                  : 'bg-white text-zinc-700 hover:bg-zinc-100 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700'
+                  ? 'bg-black text-white border-black dark:bg-white dark:text-black dark:border-white'
+                  : 'bg-white text-black border-black hover:bg-gray-100 dark:bg-black dark:text-white dark:border-white dark:hover:bg-gray-900'
               }`}
             >
               {filterOption.charAt(0).toUpperCase() + filterOption.slice(1)}
@@ -153,12 +153,12 @@ export default function Home() {
 
         {/* Todo List */}
         {loading ? (
-          <div className="text-center text-zinc-600 dark:text-zinc-400">
+          <div className="text-center text-black dark:text-white">
             Loading todos...
           </div>
         ) : todos.length === 0 ? (
-          <div className="rounded-lg bg-white p-8 text-center shadow-sm dark:bg-zinc-800">
-            <p className="text-zinc-600 dark:text-zinc-400">
+          <div className="rounded-lg bg-white p-8 text-center shadow-sm border border-black dark:bg-black dark:border-white">
+            <p className="text-black dark:text-white">
               No todos yet. Create one above!
             </p>
           </div>
@@ -167,21 +167,21 @@ export default function Home() {
             {todos.map((todo) => (
               <div
                 key={todo.id}
-                className="rounded-lg bg-white p-4 shadow-sm transition-all hover:shadow-md dark:bg-zinc-800"
+                className="rounded-lg bg-white p-4 shadow-sm border border-black transition-all hover:shadow-md dark:bg-black dark:border-white"
               >
                 <div className="flex items-start gap-3">
                   <input
                     type="checkbox"
                     checked={todo.is_completed}
                     onChange={() => handleToggleTodo(todo)}
-                    className="mt-1 h-5 w-5 cursor-pointer rounded border-zinc-300 text-zinc-900 focus:ring-2 focus:ring-zinc-500 dark:border-zinc-600 dark:bg-zinc-700"
+                    className="mt-1 h-5 w-5 cursor-pointer rounded border-black text-black focus:ring-2 focus:ring-black dark:border-white dark:bg-black"
                   />
                   <div className="flex-1">
                     <h3
                       className={`text-lg font-medium ${
                         todo.is_completed
-                          ? 'text-zinc-400 line-through dark:text-zinc-500'
-                          : 'text-zinc-900 dark:text-zinc-50'
+                          ? 'text-gray-400 line-through dark:text-gray-500'
+                          : 'text-black dark:text-white'
                       }`}
                     >
                       {todo.title}
@@ -190,20 +190,20 @@ export default function Home() {
                       <p
                         className={`mt-1 text-sm ${
                           todo.is_completed
-                            ? 'text-zinc-400 dark:text-zinc-500'
-                            : 'text-zinc-600 dark:text-zinc-400'
+                            ? 'text-gray-400 dark:text-gray-500'
+                            : 'text-black dark:text-white'
                         }`}
                       >
                         {todo.description}
                       </p>
                     )}
-                    <p className="mt-2 text-xs text-zinc-400 dark:text-zinc-500">
+                    <p className="mt-2 text-xs text-gray-400 dark:text-gray-500">
                       Created: {new Date(todo.created_at).toLocaleString()}
                     </p>
                   </div>
                   <button
                     onClick={() => handleDeleteTodo(todo.id)}
-                    className="rounded-md bg-red-100 px-3 py-1 text-sm font-medium text-red-700 transition-colors hover:bg-red-200 dark:bg-red-900/30 dark:text-red-400 dark:hover:bg-red-900/50"
+                    className="rounded-md bg-white px-3 py-1 text-sm font-medium text-black border border-black transition-colors hover:bg-gray-100 dark:bg-black dark:text-white dark:border-white dark:hover:bg-gray-900"
                   >
                     Delete
                   </button>
