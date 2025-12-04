@@ -40,6 +40,16 @@ export default function Home() {
     fetchTodos();
   }, [filter]);
 
+  useEffect(() => {
+    // Load default username from localStorage
+    if (typeof window !== 'undefined') {
+      const savedUsername = localStorage.getItem('defaultUsername');
+      if (savedUsername && !newTodoUsername) {
+        setNewTodoUsername(savedUsername);
+      }
+    }
+  }, []);
+
   // Create a new todo
   const handleCreateTodo = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -103,12 +113,20 @@ export default function Home() {
             <h1 className="text-4xl font-bold text-black dark:text-white">
               Todo List
             </h1>
-            <Link
-              href="/users"
-              className="rounded-md bg-black px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-gray-800 border border-black dark:bg-white dark:text-black dark:hover:bg-gray-200 dark:border-white"
-            >
-              View Users
-            </Link>
+            <div className="flex gap-2">
+              <Link
+                href="/users"
+                className="rounded-md bg-black px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-gray-800 border border-black dark:bg-white dark:text-black dark:hover:bg-gray-200 dark:border-white"
+              >
+                Users
+              </Link>
+              <Link
+                href="/settings"
+                className="rounded-md bg-white px-4 py-2 text-sm font-medium text-black transition-colors hover:bg-gray-100 border border-black dark:bg-black dark:text-white dark:hover:bg-gray-900 dark:border-white"
+              >
+                Settings
+              </Link>
+            </div>
           </div>
           <p className="text-black dark:text-white">
             Manage your tasks with TiDB Cloud
