@@ -90,3 +90,30 @@ export async function deleteTodo(id: number) {
 
   return true;
 }
+
+export async function getAllUsers() {
+  const result = await db
+    .selectFrom('todos')
+    .select(['username'])
+    .distinct()
+    .execute();
+
+  return result.map(r => r.username);
+}
+
+export async function getUserStats(username: string) {
+  const todos = await db
+    .selectFrom('todos')
+    .selectAll()
+    .where('username', '=', username)
+    .execute();
+
+  const mapped = todos.map(mapTodoFromDb);
+
+  return {
+    username,
+    totalTodos: mapped.length,
+    completedTodos: mapped.filter(t => t.is_completed).length,
+    activeTodos: mapped.filter(t => !t.is_completed).length,
+  };
+}

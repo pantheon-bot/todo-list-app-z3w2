@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 
 interface Todo {
   id: number;
@@ -97,11 +98,19 @@ export default function Home() {
   return (
     <div className="flex min-h-screen items-start justify-center bg-white py-12 px-4 dark:bg-black">
       <main className="w-full max-w-2xl">
-        <div className="mb-8 text-center">
-          <h1 className="text-4xl font-bold text-black dark:text-white">
-            Todo List
-          </h1>
-          <p className="mt-2 text-black dark:text-white">
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-4">
+            <h1 className="text-4xl font-bold text-black dark:text-white">
+              Todo List
+            </h1>
+            <Link
+              href="/users"
+              className="rounded-md bg-black px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-gray-800 border border-black dark:bg-white dark:text-black dark:hover:bg-gray-200 dark:border-white"
+            >
+              View Users
+            </Link>
+          </div>
+          <p className="text-black dark:text-white">
             Manage your tasks with TiDB Cloud
           </p>
         </div>
