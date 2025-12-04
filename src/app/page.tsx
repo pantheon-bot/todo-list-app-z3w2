@@ -6,6 +6,7 @@ interface Todo {
   id: number;
   title: string;
   description: string | null;
+  username: string;
   is_completed: boolean;
   created_at: string;
   updated_at: string;
@@ -16,6 +17,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [newTodoTitle, setNewTodoTitle] = useState('');
   const [newTodoDescription, setNewTodoDescription] = useState('');
+  const [newTodoUsername, setNewTodoUsername] = useState('');
   const [filter, setFilter] = useState<'all' | 'active' | 'completed'>('all');
 
   // Fetch todos from the API
@@ -40,7 +42,7 @@ export default function Home() {
   // Create a new todo
   const handleCreateTodo = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newTodoTitle.trim()) return;
+    if (!newTodoTitle.trim() || !newTodoUsername.trim()) return;
 
     try {
       const response = await fetch('/api/todos', {
@@ -49,12 +51,14 @@ export default function Home() {
         body: JSON.stringify({
           title: newTodoTitle,
           description: newTodoDescription || undefined,
+          username: newTodoUsername,
         }),
       });
 
       if (response.ok) {
         setNewTodoTitle('');
         setNewTodoDescription('');
+        setNewTodoUsername('');
         fetchTodos();
       }
     } catch (error) {
@@ -107,6 +111,16 @@ export default function Home() {
           onSubmit={handleCreateTodo}
           className="mb-8 rounded-lg bg-white p-6 shadow-sm border border-black dark:bg-black dark:border-white"
         >
+          <div className="mb-4">
+            <input
+              type="text"
+              placeholder="Username (required)"
+              value={newTodoUsername}
+              onChange={(e) => setNewTodoUsername(e.target.value)}
+              className="w-full rounded-md border border-black px-4 py-2 text-black placeholder-gray-500 focus:border-black focus:outline-none focus:ring-1 focus:ring-black dark:border-white dark:bg-black dark:text-white dark:placeholder-gray-400"
+              required
+            />
+          </div>
           <div className="mb-4">
             <input
               type="text"
@@ -177,6 +191,11 @@ export default function Home() {
                     className="mt-1 h-5 w-5 cursor-pointer rounded border-black text-black focus:ring-2 focus:ring-black dark:border-white dark:bg-black"
                   />
                   <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-sm font-semibold text-black dark:text-white">
+                        @{todo.username}
+                      </span>
+                    </div>
                     <h3
                       className={`text-lg font-medium ${
                         todo.is_completed

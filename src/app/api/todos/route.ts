@@ -34,9 +34,17 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    if (!body.username || typeof body.username !== 'string' || body.username.trim().length === 0) {
+      return NextResponse.json(
+        { error: 'Username is required and must be a non-empty string' },
+        { status: 400 }
+      );
+    }
+
     const todo = await createTodo({
       title: body.title.trim(),
       description: body.description?.trim() || undefined,
+      username: body.username.trim(),
     });
 
     return NextResponse.json({ todo }, { status: 201 });

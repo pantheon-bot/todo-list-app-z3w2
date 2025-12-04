@@ -4,6 +4,7 @@ import { type Todo } from './schema';
 export interface CreateTodoInput {
   title: string;
   description?: string;
+  username: string;
 }
 
 export interface UpdateTodoInput {
@@ -47,6 +48,7 @@ export async function createTodo(input: CreateTodoInput) {
     .values({
       title: input.title,
       description: input.description ?? null,
+      username: input.username,
       is_completed: 0,
       created_at: new Date(),
       updated_at: new Date(),
