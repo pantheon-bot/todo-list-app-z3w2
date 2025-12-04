@@ -117,3 +117,32 @@ export async function getUserStats(username: string) {
     activeTodos: mapped.filter(t => !t.is_completed).length,
   };
 }
+
+export async function getDashboardStats() {
+  const allTodos = await db
+    .selectFrom('todos')
+    .selectAll()
+    .execute();
+
+  const mapped = allTodos.map(mapTodoFromDb);
+  const users = await getAllUsers();
+
+  // Get recent todos (last 5)
+  const recentTodos = await db
+    .selectFrom('todos')
+    .selectAll()
+    .orderBy('created_at', 'desc')
+    .limit(5)
+    .execute();
+
+  return {
+    totalTodos: mapped.length,
+    completedTodos: mapped.filter(t => t.is_completed).length,
+    activeTodos: mapped.filter(t => !t.is_completed).length,
+    totalUsers: users.length,
+    recentTodos: recentTodos.map(mapTodoFromDb),
+    completionRate: mapped.length > 0
+      ? Math.round((mapped.filter(t => t.is_completed).length / mapped.length) * 100)
+      : 0,
+  };
+}

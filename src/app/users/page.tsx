@@ -47,6 +47,12 @@ export default function UsersPage() {
                 Todos
               </Link>
               <Link
+                href="/dashboard"
+                className="rounded-md bg-black px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-gray-800 border border-black dark:bg-white dark:text-black dark:hover:bg-gray-200 dark:border-white"
+              >
+                Dashboard
+              </Link>
+              <Link
                 href="/settings"
                 className="rounded-md bg-white px-4 py-2 text-sm font-medium text-black transition-colors hover:bg-gray-100 border border-black dark:bg-black dark:text-white dark:hover:bg-gray-900 dark:border-white"
               >

@@ -115,6 +115,12 @@ export default function Home() {
             </h1>
             <div className="flex gap-2">
               <Link
+                href="/dashboard"
+                className="rounded-md bg-black px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-gray-800 border border-black dark:bg-white dark:text-black dark:hover:bg-gray-200 dark:border-white"
+              >
+                Dashboard
+              </Link>
+              <Link
                 href="/users"
                 className="rounded-md bg-black px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-gray-800 border border-black dark:bg-white dark:text-black dark:hover:bg-gray-200 dark:border-white"
               >
