@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 interface Todo {
@@ -20,6 +21,8 @@ export default function Home() {
   const [newTodoDescription, setNewTodoDescription] = useState('');
   const [newTodoUsername, setNewTodoUsername] = useState('');
   const [filter, setFilter] = useState<'all' | 'active' | 'completed'>('all');
+  const [currentUser, setCurrentUser] = useState<string | null>(null);
+  const router = useRouter();
 
   // Fetch todos from the API
   const fetchTodos = async () => {
@@ -41,14 +44,22 @@ export default function Home() {
   }, [filter]);
 
   useEffect(() => {
-    // Load default username from localStorage
+    // Load current user and default username from localStorage
     if (typeof window !== 'undefined') {
+      const user = localStorage.getItem('currentUser');
+      setCurrentUser(user);
+
       const savedUsername = localStorage.getItem('defaultUsername');
       if (savedUsername && !newTodoUsername) {
         setNewTodoUsername(savedUsername);
       }
     }
   }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('currentUser');
+    router.push('/login');
+  };
 
   // Create a new todo
   const handleCreateTodo = async (e: React.FormEvent) => {
@@ -110,9 +121,16 @@ export default function Home() {
       <main className="w-full max-w-2xl">
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
-            <h1 className="text-4xl font-bold text-black dark:text-white">
-              Todo List
-            </h1>
+            <div>
+              <h1 className="text-4xl font-bold text-black dark:text-white">
+                Todo List
+              </h1>
+              {currentUser && (
+                <p className="text-sm text-gray-400 dark:text-gray-500 mt-1">
+                  Logged in as @{currentUser}
+                </p>
+              )}
+            </div>
             <div className="flex gap-2">
               <Link
                 href="/dashboard"
@@ -132,6 +150,14 @@ export default function Home() {
               >
                 Settings
               </Link>
+              {currentUser && (
+                <button
+                  onClick={handleLogout}
+                  className="rounded-md bg-white px-4 py-2 text-sm font-medium text-black transition-colors hover:bg-gray-100 border border-black dark:bg-black dark:text-white dark:hover:bg-gray-900 dark:border-white"
+                >
+                  Logout
+                </button>
+              )}
             </div>
           </div>
           <p className="text-black dark:text-white">

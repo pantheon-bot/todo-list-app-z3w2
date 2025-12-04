@@ -1,12 +1,15 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 export default function SettingsPage() {
   const [defaultUsername, setDefaultUsername] = useState('');
   const [theme, setTheme] = useState<'light' | 'dark' | 'system'>('system');
   const [saved, setSaved] = useState(false);
+  const [currentUser, setCurrentUser] = useState<string | null>(null);
+  const router = useRouter();
 
   const handleSaveSettings = (e: React.FormEvent) => {
     e.preventDefault();
@@ -46,20 +49,34 @@ export default function SettingsPage() {
   };
 
   // Load settings on mount
-  useState(() => {
+  useEffect(() => {
     if (typeof window !== 'undefined') {
       handleLoadSettings();
+      const user = localStorage.getItem('currentUser');
+      setCurrentUser(user);
     }
-  });
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('currentUser');
+    router.push('/login');
+  };
 
   return (
     <div className="flex min-h-screen items-start justify-center bg-white py-12 px-4 dark:bg-black">
       <main className="w-full max-w-2xl">
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
-            <h1 className="text-4xl font-bold text-black dark:text-white">
-              Settings
-            </h1>
+            <div>
+              <h1 className="text-4xl font-bold text-black dark:text-white">
+                Settings
+              </h1>
+              {currentUser && (
+                <p className="text-sm text-gray-400 dark:text-gray-500 mt-1">
+                  Logged in as @{currentUser}
+                </p>
+              )}
+            </div>
             <div className="flex gap-2">
               <Link
                 href="/"
@@ -79,6 +96,14 @@ export default function SettingsPage() {
               >
                 Users
               </Link>
+              {currentUser && (
+                <button
+                  onClick={handleLogout}
+                  className="rounded-md bg-white px-4 py-2 text-sm font-medium text-black transition-colors hover:bg-gray-100 border border-black dark:bg-black dark:text-white dark:hover:bg-gray-900 dark:border-white"
+                >
+                  Logout
+                </button>
+              )}
             </div>
           </div>
           <p className="text-black dark:text-white">
@@ -194,6 +219,15 @@ export default function SettingsPage() {
               <div className="font-medium">Todo List</div>
               <div className="text-xs text-gray-400 dark:text-gray-500">
                 View and manage your todos
+              </div>
+            </Link>
+            <Link
+              href="/dashboard"
+              className="block p-3 rounded-md border border-black text-black hover:bg-gray-50 dark:border-white dark:text-white dark:hover:bg-gray-900"
+            >
+              <div className="font-medium">Dashboard</div>
+              <div className="text-xs text-gray-400 dark:text-gray-500">
+                View statistics and overview
               </div>
             </Link>
             <Link
